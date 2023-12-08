@@ -3,6 +3,8 @@
 
 #include "ShooterCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "InputActionValue.h"
+#include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()

@@ -10,6 +10,17 @@ UCLASS()
 class SHOOTERGAME_API AShooterCharacter : public ACharacter
 {
 	GENERATED_BODY()
+	/** Mapping context*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputMappingContext* DefaultMappingContext;
+
+	/** Move input action*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* MoveAction;
+
+	/** Look input action*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* LookAction;
 
 public:
 	// Sets default values for this character's properties
