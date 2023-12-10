@@ -4,7 +4,7 @@
 #include "ShooterCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputActionValue.h"
-#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -30,6 +30,16 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// add input mapping context
+	/* why not add this in the constructor ? */
+	// maybe this is just a special systex
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			SubSystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
 
 // Called every frame
@@ -43,33 +53,42 @@ void AShooterCharacter::Tick(float DeltaTime)
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	check(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
+	
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Move);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Look);
+	}
 }
 
-void AShooterCharacter::MoveForward(float Value)
+void AShooterCharacter::Move(const FInputActionValue& Value)
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	const FVector2D MovementVector = Value.Get<FVector2D>();
+
+	if (Controller != nullptr)
 	{
 		const FRotator Rotation(Controller->GetControlRotation());
 		const FRotator YawRotation( 0, Rotation.Yaw, 0);
 
-		const FVector Direction(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X));
-		AddMovementInput(Direction, Value);
+		const FVector ForwardDirction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		const FVector RightdDirction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+		
+		AddMovementInput(ForwardDirction, MovementVector.Y);
+		AddMovementInput(RightdDirction, MovementVector.X);
 	}
 }
 
-void AShooterCharacter::MoveRight(float Value)
+void AShooterCharacter::Look(const FInputActionValue& Value)
 {
-	if ((Controller != nullptr) && (Value != 0.0f))
+	const FVector2D LookAxisVector = Value.Get<FVector2D>();
+	if (Controller != nullptr)
 	{
-		const FRotator Rotation(Controller->GetControlRotation());
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		const FVector Direction(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y));
-		AddMovementInput(Direction, Value);
+		AddControllerYawInput(LookAxisVector.X);
+		AddControllerPitchInput(LookAxisVector.Y);
 	}
+
+
+
+
 }
