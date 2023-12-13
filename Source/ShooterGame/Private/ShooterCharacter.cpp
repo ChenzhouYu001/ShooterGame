@@ -87,8 +87,4 @@ void AShooterCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
-
-
-
-
 }
