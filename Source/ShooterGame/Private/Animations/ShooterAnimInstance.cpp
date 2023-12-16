@@ -2,7 +2,6 @@
 
 
 #include "Animations/ShooterAnimInstance.h"
-#include "ShooterCharacter.h"
 
 void UShooterAnimInstance::NativeInitializeAnimation()
 {
@@ -11,4 +10,18 @@ void UShooterAnimInstance::NativeInitializeAnimation()
 
 void UShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
+	UpdateProperty(DeltaSeconds);
+}
+
+void UShooterAnimInstance::UpdateProperty(float DeltaSeconds)
+{
+	if (ShooterCharacter == nullptr)
+	{
+		ShooterCharacter = Cast<AShooterCharacter>(TryGetPawnOwner());
+	}
+	if (ShooterCharacter)
+	{
+		ForwardIntension = ShooterCharacter->GetForwardIntension();
+		RightIntension = ShooterCharacter->GetRightIntension();
+	}
 }

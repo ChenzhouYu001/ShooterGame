@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "ShooterCharacter.h"
 #include "ShooterAnimInstance.generated.h"
 
 /**
@@ -19,8 +20,14 @@ public:
 	// update
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 private:
-	UPROPERTY()
+	void UpdateProperty(float DeltaSeconds);
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class AShooterCharacter* ShooterCharacter;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	EForwardIntension ForwardIntension;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	ERightIntension RightIntension;
 };
