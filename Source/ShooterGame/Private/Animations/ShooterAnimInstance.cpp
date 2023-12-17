@@ -11,6 +11,8 @@ void UShooterAnimInstance::NativeInitializeAnimation()
 void UShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	UpdateProperty(DeltaSeconds);
+	GetTheAnimationCharacterSpeed();
+	SetTheMovementComponentSpeed();
 }
 
 void UShooterAnimInstance::UpdateProperty(float DeltaSeconds)
@@ -24,4 +26,11 @@ void UShooterAnimInstance::UpdateProperty(float DeltaSeconds)
 		ForwardIntension = ShooterCharacter->GetForwardIntension();
 		RightIntension = ShooterCharacter->GetRightIntension();
 	}
+}
+void UShooterAnimInstance::GetTheAnimationCharacterSpeed()
+{
+	
+}
+void UShooterAnimInstance::SetTheMovementComponentSpeed()
+{
 }

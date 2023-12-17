@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
+#include "Animations/ShooterAnimInstance.h"
 #include "Camera/CameraComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -40,6 +41,15 @@ void AShooterCharacter::BeginPlay()
 			SubSystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+	// we seperate the`animation transform logic` and `playing animation`, so we need to link additional 
+	if (USkeletalMeshComponent* MeshComponent = Cast<USkeletalMeshComponent>(GetComponentByClass(USkeletalMeshComponent::StaticClass())))
+	{
+		if (LinkedAnimationLayer)
+		{
+			MeshComponent->LinkAnimClassLayers(LinkedAnimationLayer);
+		}
+	}
+	
 }
 
 // Called every frame

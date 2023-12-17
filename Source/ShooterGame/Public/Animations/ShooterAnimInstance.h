@@ -30,4 +30,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	ERightIntension RightIntension;
+
+
+private:
+	void GetTheAnimationCharacterSpeed();
+	void SetTheMovementComponentSpeed();
 };
