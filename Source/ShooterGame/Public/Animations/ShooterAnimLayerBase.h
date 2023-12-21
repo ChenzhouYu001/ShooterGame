@@ -14,7 +14,7 @@ UCLASS()
 class SHOOTERGAME_API UShooterAnimLayerBase : public UShooterAnimInstance
 {
 	GENERATED_BODY()
-public:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
 	UAnimSequence* Idle;
 
