@@ -19,8 +19,8 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	// update
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-private:
-	void UpdateProperty(float DeltaSeconds);
+protected:
+	virtual void UpdateProperty(float DeltaSeconds);
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class AShooterCharacter* ShooterCharacter;

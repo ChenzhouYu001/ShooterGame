@@ -15,6 +15,9 @@ class SHOOTERGAME_API UShooterAnimLayerBase : public UShooterAnimInstance
 {
 	GENERATED_BODY()
 protected:
+	virtual void UpdateProperty(float DeltaSeconds) override;
+
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
 	UAnimSequence* Idle;
 
@@ -26,4 +29,18 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
 	UAnimSequence* Stop;
+	/** Movement */
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float SpeedEachFrame;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float DisplacementEachFrame;
+private:
+	bool IsFirstUpdate;
+	FVector LastUpdateLocation;
+private:
+	void SetFrameSpeedandDisplacement(float DeltaTime);
+public:
+	FORCEINLINE float GetFrameDisplacement() const { return DisplacementEachFrame; }
+	FORCEINLINE float GetFrameSpeed() const { return SpeedEachFrame; }
 };
