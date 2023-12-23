@@ -58,6 +58,9 @@ void AShooterCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	ForwardIntension = EForwardIntension::Idle;
 	RightIntension = ERightIntension::Idle;
+	
+	/** set speed/frame and displacement/frame  */
+	SetFrameSpeedandDisplacement(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -118,4 +121,21 @@ void AShooterCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
-
+void AShooterCharacter::SetFrameSpeedandDisplacement(float DeltaTime)
+{
+	if (!IsFirstUpdate)
+	{
+		const FVector DisplacementEachFrameVector = GetActorLocation() - LastUpdateLocation;
+		DisplacementEachFrame = DisplacementEachFrameVector.Size();
+		if (DeltaTime > 0)
+		{
+			SpeedEachFrame = DisplacementEachFrame / DeltaTime;
+		}
+		else
+		{
+			SpeedEachFrame = 0.0f;
+		}
+	}
+	LastUpdateLocation = GetActorLocation();
+	IsFirstUpdate = false;
+}

@@ -77,5 +77,18 @@ public:
 public:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
-
+	/** get and set speed/frame and displacement/frame */
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float SpeedEachFrame;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float DisplacementEachFrame;
+private:
+	bool IsFirstUpdate;
+	FVector LastUpdateLocation;
+private:
+	void SetFrameSpeedandDisplacement(float DeltaTime);
+public:
+	FORCEINLINE float GetFrameDisplacement() const { return DisplacementEachFrame; }
+	FORCEINLINE float GetFrameSpeed() const { return SpeedEachFrame; }
 };

@@ -21,18 +21,7 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 private:
 	void UpdateProperty(float DeltaSeconds);
-private:
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class AShooterCharacter* ShooterCharacter;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	EForwardIntension ForwardIntension;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	ERightIntension RightIntension;
-
-
-private:
-	void GetTheAnimationCharacterSpeed();
-	void SetTheMovementComponentSpeed();
 };
