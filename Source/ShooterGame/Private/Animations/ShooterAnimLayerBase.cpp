@@ -2,31 +2,46 @@
 
 
 #include "Animations/ShooterAnimLayerBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
+void UShooterAnimLayerBase::NativeInitializeAnimation()
+{
+	Super::NativeInitializeAnimation();
+	DistanceCurveName = "Distance";
+}
 
 void UShooterAnimLayerBase::UpdateProperty(float DeltaSeconds)
 {
 	Super::UpdateProperty(DeltaSeconds);
-	if (ShooterCharacter)
-	{
-		SetFrameSpeedandDisplacement(DeltaSeconds);
-	}
+	SetFrameSpeedandDisplacement(DeltaSeconds);
+	UpdateCharacterMovementComponent();
 }
 
 void UShooterAnimLayerBase::SetFrameSpeedandDisplacement(float DeltaTime)
 {
-	if (!IsFirstUpdate)
+	if (ShooterCharacter)
 	{
-		const FVector DisplacementEachFrameVector = ShooterCharacter -> GetActorLocation() - LastUpdateLocation;
-		DisplacementEachFrame = DisplacementEachFrameVector.Size();
-		if (DeltaTime > 0)
+		if (!IsFirstUpdate)
 		{
-			SpeedEachFrame = DisplacementEachFrame / DeltaTime;
+			const FVector DisplacementEachFrameVector = ShooterCharacter -> GetActorLocation() - LastUpdateLocation;
+			DisplacementEachFrame = DisplacementEachFrameVector.Size();
+			if (DeltaTime > 0)
+			{
+				SpeedEachFrame = DisplacementEachFrame / DeltaTime;
+			}
+			else
+			{
+				SpeedEachFrame = 0.0f;
+			}
 		}
-		else
-		{
-			SpeedEachFrame = 0.0f;
-		}
+		LastUpdateLocation = ShooterCharacter -> GetActorLocation();
+		IsFirstUpdate = false;	
 	}
-	LastUpdateLocation = ShooterCharacter -> GetActorLocation();
-	IsFirstUpdate = false;	
+}
+
+void UShooterAnimLayerBase::UpdateCharacterMovementComponent()
+{
+	if (ShooterCharacter)
+	{
+		CharacterMovementComponent = ShooterCharacter->GetCharacterMovement();
+	}
 }

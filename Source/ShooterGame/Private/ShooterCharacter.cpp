@@ -56,8 +56,6 @@ void AShooterCharacter::BeginPlay()
 void AShooterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	ForwardIntension = EForwardIntension::Idle;
-	RightIntension = ERightIntension::Idle;
 }
 
 // Called to bind functionality to input
@@ -87,25 +85,6 @@ void AShooterCharacter::Move(const FInputActionValue& Value)
 		
 		AddMovementInput(ForwardDirction, MovementVector.Y);
 		AddMovementInput(RightdDirction, MovementVector.X);
-		
-		if (MovementVector.Y > 0)
-		{
-			ForwardIntension = EForwardIntension::Forward;
-		}
-		else if (MovementVector.Y < 0)
-		{
-			ForwardIntension = EForwardIntension::Backward;
-		}
-
-		if (MovementVector.X > 0)
-		{
-			RightIntension = ERightIntension::Right;
-		}
-		else if (MovementVector.X < 0)
-		{
-			RightIntension = ERightIntension::Left;
-		}
-
 	}
 }
 void AShooterCharacter::Look(const FInputActionValue& Value)

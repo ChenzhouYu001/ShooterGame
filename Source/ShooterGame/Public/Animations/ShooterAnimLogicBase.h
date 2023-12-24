@@ -15,11 +15,4 @@ class SHOOTERGAME_API UShooterAnimLogicBase : public UShooterAnimInstance
 	GENERATED_BODY()
 protected:
 	virtual void UpdateProperty(float DeltaSeconds) override;
-
-private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	EForwardIntension ForwardIntension;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	ERightIntension RightIntension;
 };

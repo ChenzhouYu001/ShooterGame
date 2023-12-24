@@ -7,22 +7,6 @@
 #include "EnhancedInputComponent.h"
 #include "ShooterCharacter.generated.h"
 
-UENUM(BlueprintType)
-enum class EForwardIntension : uint8
-{
-	Idle,
-	Forward,
-	Backward
-};
-UENUM(BlueprintType)
-enum class ERightIntension : uint8
-{
-	Idle,
-	Right,
-	Left
-};
-
-
 UCLASS()
 class SHOOTERGAME_API AShooterCharacter : public ACharacter
 {
@@ -63,17 +47,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UAnimInstance> LinkedAnimationLayer;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	EForwardIntension ForwardIntension;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
-	ERightIntension RightIntension;
-
 public:
 	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	FORCEINLINE const EForwardIntension GetForwardIntension() const { return ForwardIntension; }
-	FORCEINLINE const ERightIntension GetRightIntension() const { return RightIntension; }
 public:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);

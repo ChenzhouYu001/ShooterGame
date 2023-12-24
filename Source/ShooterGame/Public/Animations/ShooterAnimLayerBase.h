@@ -15,8 +15,9 @@ class SHOOTERGAME_API UShooterAnimLayerBase : public UShooterAnimInstance
 {
 	GENERATED_BODY()
 protected:
+	virtual void NativeInitializeAnimation() override;
 	virtual void UpdateProperty(float DeltaSeconds) override;
-
+	/** Animation */
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
 	UAnimSequence* Idle;
@@ -29,12 +30,15 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
 	UAnimSequence* Stop;
+
 	/** Movement */
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float SpeedEachFrame;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float DisplacementEachFrame;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	FString DistanceCurveName;
 private:
 	bool IsFirstUpdate;
 	FVector LastUpdateLocation;
@@ -43,4 +47,11 @@ private:
 public:
 	FORCEINLINE float GetFrameDisplacement() const { return DisplacementEachFrame; }
 	FORCEINLINE float GetFrameSpeed() const { return SpeedEachFrame; }
+
+	/** MovementComponent */
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	class UCharacterMovementComponent* CharacterMovementComponent;
+private:
+	void UpdateCharacterMovementComponent();
 };
