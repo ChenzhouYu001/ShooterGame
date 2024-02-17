@@ -4,12 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
-#include "ShooterCharacter.h"
 #include "ShooterAnimInstance.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class EMovingDirection : uint8
+{
+	None = 0,
+	ForwardDirection = 10 UMETA(DisplayName = "ForwardDirection"),
+	BackwardDirection = 20 UMETA(DisplayName = "BackwardDirection"),
+	LeftDirection = 30 UMETA(DisplayName = "LeftDirection"),
+	RightDirection = 40 UMETA(DisplayName = "RightDirection"),
+};
+
 UCLASS()
 class SHOOTERGAME_API UShooterAnimInstance : public UAnimInstance
 {
@@ -25,12 +31,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class AShooterCharacter* ShooterCharacter;
 	/** Movement */
-private:
-	void UpdateVelocityandAcceleration();
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	bool HasVelocity;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	bool HasAcceleration;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	EMovingDirection MovingDirection = EMovingDirection::None;
 };

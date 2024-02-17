@@ -5,7 +5,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
-#include "Animations/ShooterAnimInstance.h"
 #include "Camera/CameraComponent.h"
 // Sets default values
 AShooterCharacter::AShooterCharacter()

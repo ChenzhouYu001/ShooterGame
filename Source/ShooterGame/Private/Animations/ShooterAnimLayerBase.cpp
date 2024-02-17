@@ -2,7 +2,9 @@
 
 
 #include "Animations/ShooterAnimLayerBase.h"
+#include "ShooterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
 void UShooterAnimLayerBase::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();

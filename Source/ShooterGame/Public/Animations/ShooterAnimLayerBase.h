@@ -7,9 +7,24 @@
 #include "Animation/AnimSequence.h"
 #include "ShooterAnimLayerBase.generated.h"
 
-/**
- * 
- */
+USTRUCT(BlueprintType)
+struct FShooterAnimations
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UAnimSequence* Forward;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UAnimSequence* BackWard;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UAnimSequence* Left;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UAnimSequence* Right;
+};
+
 UCLASS()
 class SHOOTERGAME_API UShooterAnimLayerBase : public UShooterAnimInstance
 {
@@ -23,13 +38,13 @@ protected:
 	UAnimSequence* Idle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
-	UAnimSequence* Start;
+	FShooterAnimations Start;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
-	UAnimSequence* Cycle;
+	FShooterAnimations Cycle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AnimationSequence, meta = (AllowPrivateAccess = "true"))
-	UAnimSequence* Stop;
+	FShooterAnimations Stop;
 
 	/** Movement */
 private:

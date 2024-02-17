@@ -2,6 +2,8 @@
 
 
 #include "Animations/ShooterAnimInstance.h"
+#include "ShooterCharacter.h"
+#include "Engine/Engine.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 void UShooterAnimInstance::NativeInitializeAnimation()
@@ -14,7 +16,6 @@ void UShooterAnimInstance::NativeInitializeAnimation()
 void UShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	UpdateProperty(DeltaSeconds);
-	UpdateVelocityandAcceleration();
 }
 
 void UShooterAnimInstance::UpdateProperty(float DeltaSeconds)
@@ -23,21 +24,14 @@ void UShooterAnimInstance::UpdateProperty(float DeltaSeconds)
 	{
 		ShooterCharacter = Cast<AShooterCharacter>(TryGetPawnOwner());
 	}
-}
-
-void UShooterAnimInstance::UpdateVelocityandAcceleration()
-{
-	if (ShooterCharacter == nullptr)
-	{
-		ShooterCharacter = Cast<AShooterCharacter>(TryGetPawnOwner());
-	}
-	// Velocity
 	if (ShooterCharacter)
 	{
-		const FVector WorldVelocity = ShooterCharacter->GetVelocity();
-		const FVector WorldVelocity2D = WorldVelocity * FVector(1.0f, 1.0f, 0.0f);
-		const FRotationMatrix RotationMatrix(ShooterCharacter->GetActorRotation());
-		const FVector LocalVelocity2D = RotationMatrix.TransformVector(WorldVelocity2D);
+		// Velocity	
+		const FVector& WorldVelocity = ShooterCharacter->GetVelocity();
+		const FVector& WorldVelocity2D = WorldVelocity * FVector(1.0f, 1.0f, 0.0f);
+		const FRotator& BaseRotation = ShooterCharacter->GetActorRotation();
+		const FRotationMatrix& RotationMatrix(BaseRotation);
+		const FVector& LocalVelocity2D = RotationMatrix.TransformVector(WorldVelocity2D);
 		if (LocalVelocity2D.Size() > 0)
 		{
 			HasVelocity = true;
@@ -46,17 +40,13 @@ void UShooterAnimInstance::UpdateVelocityandAcceleration()
 		{
 			HasVelocity = false;
 		}
-	}
-	// Acceleration
-	if (ShooterCharacter)
-	{
+		// Acceleration
 		UCharacterMovementComponent* CharacterMovement = ShooterCharacter->GetCharacterMovement();
 		if (CharacterMovement != nullptr)
 		{
-			const FVector WorldAcceleration = CharacterMovement->GetCurrentAcceleration();
-			const FVector WorldAcceleration2D = WorldAcceleration * FVector(1.0f, 1.0f, 0.0f);
-			const FRotationMatrix RotationMatrix(ShooterCharacter->GetActorRotation());
-			const FVector LocalAcceleration2D = RotationMatrix.TransformVector(WorldAcceleration2D);
+			const FVector& WorldAcceleration = CharacterMovement->GetCurrentAcceleration();
+			const FVector& WorldAcceleration2D = WorldAcceleration * FVector(1.0f, 1.0f, 0.0f);
+			const FVector& LocalAcceleration2D = RotationMatrix.TransformVector(WorldAcceleration2D);
 			if (LocalAcceleration2D.Size() > 0)
 			{
 				HasAcceleration = true;
@@ -65,6 +55,24 @@ void UShooterAnimInstance::UpdateVelocityandAcceleration()
 			{
 				HasAcceleration = false;
 			}
+		}
+		// MovementDirection
+		float ForwardDeltaDegree = CalculateDirection(WorldVelocity2D, BaseRotation);
+		if (ForwardDeltaDegree >= -45.0f && ForwardDeltaDegree < 45.0f)
+		{
+			MovingDirection = EMovingDirection::ForwardDirection;
+		}
+		if (ForwardDeltaDegree >= 45.0f && ForwardDeltaDegree < 135.0f)
+		{
+			MovingDirection = EMovingDirection::RightDirection;
+		}
+		if (ForwardDeltaDegree >= 135.0f || ForwardDeltaDegree <= -135.0f)
+		{
+			MovingDirection = EMovingDirection::BackwardDirection;
+		}
+		if (ForwardDeltaDegree <= -45.0f && ForwardDeltaDegree > -135.0f)
+		{
+			MovingDirection = EMovingDirection::LeftDirection;
 		}
 	}
 }
